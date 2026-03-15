@@ -1,9 +1,11 @@
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.158.0/build/three.module.js";
 import { VRButton } from "https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/webxr/VRButton.js";
+import { GLTFLoader } from "https://cdn.jsdelivr.net/npm/three@0.158.0/examples/jsm/loaders/GLTFLoader.js";
 
 let scene, camera, renderer;
 let mop;
 let spill;
+let table;
 
 const feedback = document.getElementById("feedback");
 
@@ -70,6 +72,22 @@ function init() {
     mop.position.set(-1, 0.75, -1);
 
     scene.add(mop);
+
+    /* TABLE */
+    const loader = new GLTFLoader();
+    loader.load(
+        'meshes/table.glb',
+        function (gltf) {
+            table = gltf.scene;
+            table.position.set(0, 0, 0);
+            table.scale.set(1, 1, 1);
+            scene.add(table);
+        },
+        undefined,
+        function (error) {
+            console.error('An error happened loading the table:', error);
+        }
+    );
 
     feedback.innerHTML = "Task: Clean the spill using the mop (Press C)";
 }
